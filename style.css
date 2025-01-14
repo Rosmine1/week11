@@ -1,0 +1,11 @@
+.grid{
+    max-width:  100px;
+}
+.box{
+    min-height: 100px;
+    
+}
+.alert-container{
+    min-height: 100px;
+
+}
