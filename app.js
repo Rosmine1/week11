@@ -32,17 +32,12 @@ $("#alertDraw").hide();
 // keep track of the current player
 let currentPlayer='';
 
-const winningOutcomes = [
-    [box0,box1,box2],[box3,box4,box5],[box6,box7,box8],
-    [box0,box3,box6],[box1,box4,box7],[box2,box5,box8],
-    [box0,box4,box8],[box2,box4,box6]
-];
 
 // function to end the game
 const endGame= () =>{
     console.log("GAME OVER");
     $(".box").css("pointer-events","none");
-
+    
 }
 
 
@@ -51,40 +46,38 @@ const checkWinner = (currentPlayer,a,b,c) =>{
     if(a.text() === currentPlayer && b.text() === currentPlayer && c.text() === currentPlayer ){
         winner = true;
         console.log(`Found winner, its ${currentPlayer}!`);
-
+        
         a.removeClass('text-info bg-dark');
         b.removeClass('text-info bg-dark');
         c.removeClass('text-info bg-dark');
-
+        
         a.addClass('text-dark bg-info');
         b.addClass('text-dark bg-info');
         c.addClass('text-dark bg-info');
-
-
+        
+        
         if(currentPlayer == 'X'){
             currentPlayer = "Player 1"
         }else{
             currentPlayer = "Player 2"
         }
-
+        
         $('#alertWinner').text(`GAME OVER... ${currentPlayer} WINS!`)
         $('#alertWinner').show();
-
+        
         endGame();
-    
-       
+        
+        
     }
 };
-
+// winning possibilities
+const winningOutcomes = [[box0,box1,box2],[box3,box4,box5],[box6,box7,box8],[box0,box3,box6],[box1,box4,box7],[box2,box5,box8],[box0,box4,box8],[box2,box4,box6]];
 const checkOutcomes = () => {
-    checkWinner(currentPlayer, ...winningOutcomes[0]);
-    checkWinner(currentPlayer, ...winningOutcomes[1]);
-    checkWinner(currentPlayer, ...winningOutcomes[2]);
-    checkWinner(currentPlayer, ...winningOutcomes[3]);
-    checkWinner(currentPlayer, ...winningOutcomes[4]);
-    checkWinner(currentPlayer, ...winningOutcomes[5]);
-    checkWinner(currentPlayer, ...winningOutcomes[6]);
-    checkWinner(currentPlayer, ...winningOutcomes[7]);
+    
+    for(let i = 0; i< winningOutcomes.length; i++){
+        
+        checkWinner(currentPlayer, winningOutcomes[i][0], winningOutcomes[i][1], winningOutcomes[i][2]);
+    }
   
 };
 
@@ -108,6 +101,13 @@ const startGame = ()=>{
         if(turn>4){
             console.log('winner');
             checkOutcomes()
+        }
+        //draw
+        if(turn == 9 ){
+            $('#alertWinner').text("GAME OVER... IT'S A DRAW!").show()
+            endGame();
+            
+
         }
         if(currentPlayer == player1){
             currentPlayer = player2;
